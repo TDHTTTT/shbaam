@@ -1,3 +1,12 @@
 docker run --rm --name shbaam -v /c/Users/tdhttt/workspace/shbaam/iobackup/input:/home/shbaam/input -v /c/Users/tdhttt/workspace/shbaam/iobackup/output/:/home/shbaam/output -it chdavid/shbaam
 
 docker run --rm --name shbaam -v "$(pwd)/input":/home/shbaam/input -v "$(pwd)/output":/home/shbaam/output -it chdavid/shbaam
+
+---------------------------------------------------
+Questions:
+#!/usr/bin/env python(2)
+	why don't we be more explicit about python2
+	do we want to be compatible with python3?
+		if so, we may need to be more careful about the pip package
+
+ideal user case
