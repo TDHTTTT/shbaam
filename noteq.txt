@@ -2,6 +2,8 @@ docker run --rm --name shbaam -v /c/Users/tdhttt/workspace/shbaam/iobackup/input
 
 docker run --rm --name shbaam -v "$(pwd)/input":/home/shbaam/input -v "$(pwd)/output":/home/shbaam/output -it chdavid/shbaam
 
+wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies -np -r --content-disposition <url>
+
 ---------------------------------------------------
 Questions:
 #!/usr/bin/env python(2)
@@ -10,3 +12,5 @@ Questions:
 		if so, we may need to be more careful about the pip package
 
 ideal user case
+
+Why don't use wget to download LDAS?
