@@ -195,6 +195,10 @@ if [ $? -gt 0 ] ; then echo "Problem converting" >&2 ; exit 22 ; fi
 unzip -nq ../output/SERVIR_STK/GRCTellus.JPL.pnt.zip -d ../output/SERVIR_STK/
 if [ $? -gt 0 ] ; then echo "Problem converting" >&2 ; exit 22 ; fi
 
+#*******************************************************************************
+#Download GLDAS files
+#*******************************************************************************
+../src/shbaam_ldas.py VIC 2000-01-01T00:00:00 2000-06-01T00:00:00 ../input/GLDAS/.
 
 #*******************************************************************************
 #Done
