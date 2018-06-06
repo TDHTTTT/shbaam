@@ -290,4 +290,3 @@ Testing scripts are currently under development.
 Note that the experienced users may find more up-to-date testing instructions
 in
 [.appveyor.yml](https://github.com/c-h-david/shbaam/blob/master/.appveyor.yml).
-=======
