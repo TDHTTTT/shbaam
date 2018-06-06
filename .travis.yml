@@ -29,13 +29,16 @@ matrix:
 #Environment variables for different tests on multiple Travis CI workers
 #*******************************************************************************
 env:
-- TST_PUB_DWNL='./tst_pub_dwnl_David_etal_201x_SER.sh' TST_PUB_REPR='./tst_pub_repr_David_etal_201x_SER.sh'
-
+  global:
+    - TST_PUB_DWNL='./tst_pub_dwnl_David_etal_201x_SER.sh' TST_PUB_REPR='./tst_pub_repr_David_etal_201x_SER.sh'
+    - secure: "X02+wXhU+jsoo1nCxFZVqQ34QBpjwb8P7fn3us5W0QHlhMBU8fJ/gA07OGUZUl61QFG2qtuz0E1JI9TQNELwMvW8S3+RYXq1wqFJ1ueqxchf8+cKWESITtmOHEN045awnNTD5prQcjWazEYW968gqX8FB63TPMQ+4pU95iTk272hd6IMqqdGopQnMmDrSsI03OO3RlEhUcpW0hUgETBl9//P8XBmOvo+mSCQb3axFjTNwtcad54zLkvY5lREXfBnaT7v+9HfxtB0B3KieglkodG3Yl4cmFv91lSy4lgsRcKbMRLckEqHNkOTrONRlrFg6hZ1n7pm/AUJ8NYMBldbma3PJZvtLanJtcBxEns5lBIaWkiJ5IpknFS9d/REv9wqouhgOWFYtzpij2Z8PJMlN2lPtvRH93ZL26yaQKxd+dwHhn2jdV4RVfffOkthylSDfjl9flFLIN/5E2rRDliRKmivbwhg+sraEcMeWem/Az/9VVV5Mh2m06+xpoYcYXwm/vFcAfBmFWgf3q2kEl69WRZBLlJidXUG9cnAHTfXMffI+z4aO/DKnSRrdAexJUkhrnIHbxa6MEvlM16l8eJI5XePcT7Yd8EDXt46hc9VvEFDKTTyvLtK+iejs+jT2SYoNjtQp+6BuNgTOAFFPQpY18dYXdT0mUkcNGI4ZgUcMy8="
+    - secure: "yuP7/jHOZL3O6/VH8lELiyMWt9qM8k4akmXTYy20RlQtdauKPkWa0FuOTCZbMVeWjHd5Gwdgj6tDFkpVoYAbxsKohI3CtNpMv1YW9TkQwbZF2ns2PGb3Lypkztb2Gro9FbyNHWe3blDKWwxhaioWdJNeHFaOJ2IxpIv20uNPML2H8Isi4APgEGfg2egAeqfzZowoFdJFOWa0FvBjFrjZv5Tob1FzOK/wT3Sg0LwvKxDe2nCQz8BLPoQvdxtXiLb9MlrYx0ayO2FDYw7SQdDHENccD14T6i5R4SDDu25CpXt8ugPj40FlPgxzl0tKSZmiZ/MgzfwdJkZLOI931QomPWVs2+WCVXsSxLUxKZb11xUKfQlnm4Grfv8anm1sVI+p0Wr1WxxH7jWXB9ndiBbhexFNWCNDlKJzxoYzpFhYfl28INEeDGJlr232g+pNKQvv22IEh82UaDIA5YD12X1dSgocJfZbR5NUfeuebOKiFiDDGSKdmRENShv2L/GA4x3gQbbUakhzn/V3lWF3clYaflx5dDdfEwfgeXWlhcV71jjQEyRFUO0YIJiysSfhSscO4kA6lRZUVBjpW2+6SpaYUxMOV5lTq2ejDOrvJVgpdJXMVT5YyKpFvbmfr5IxU0WoJJQoed0nIcb4RDqRBUqMQ0wLuHeRoeJakjqdYMamqC0="
 
 #*******************************************************************************
 #Before installing SHBAAM
 #*******************************************************************************
 before_install:
+- echo "machine urs.earthdata.nasa.gov login $EARTH_USERNAME password $EARTH_PASSWORD" >> ~/.netrc
 
 #-------------------------------------------------------------------------------
 #Specific to Linux
