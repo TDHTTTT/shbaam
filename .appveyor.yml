@@ -20,7 +20,11 @@ build: false
 
 image:
   - Visual Studio 2015
-  
+
+branches:
+  only:
+    - master
+    - exp  
 
 #*******************************************************************************
 #Environment variables for different tests on multiple AppVeyor workers
