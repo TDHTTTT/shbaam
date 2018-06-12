@@ -29,12 +29,18 @@ environment:
   matrix:
     - TST_PUB_DWNL: 'tst_pub_dwnl_David_etal_201x_SER.sh'
       TST_PUB_REPR: 'tst_pub_repr_David_etal_201x_SER.sh'
+  
+  EARTH_USERNAME:
+    secure: iJJA/KDq2f5V3/k8IRSHHA==
 
+  EARTH_PASSWORD:
+    secure: goH0K33745ArR1LCelFXeQ==
 
 #*******************************************************************************
 #Before installing SHBAAM
 #*******************************************************************************
 install:
+  - ps: echo "machine urs.earthdata.nasa.gov login $EARTH_USERNAME password $EARTH_PASSWORD" >> ~/.netrc
   - ps: rm Alias:wget
   - ps: choco install --no-progress ((gc requirements.cho) -notmatch '^#' -match '\S')
   - ps: $ENV:PATH="C:\\ProgramData\\MiniConda2;C:\\ProgramData\\MiniConda2\\Scripts;$ENV:PATH"
