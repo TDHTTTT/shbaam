@@ -258,7 +258,6 @@ for JS_count in range(IS_count):
                print('ERROR - status code '+str(r.status_code)+                \
                      'returned when downloading '+payload['FILENAME'])
                raise SystemExit(22)
-          print(r.headers)
           YS_name=r.headers['content-disposition']
           YS_name=YS_name.replace('attachment; filename=','')
           YS_name=YS_name.replace('"','')
