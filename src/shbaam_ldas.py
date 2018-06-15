@@ -168,6 +168,7 @@ r=requests.get(url, params=payload, auth=cred)
 #     &VARIABLES=SoilM1,SWE
 #requests.get() actually downloads the file into memory and also saves some
 #associated download metadata
+print(cred)
 if r.ok:
      print('- The request was successful')
 else:
