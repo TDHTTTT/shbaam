@@ -83,6 +83,7 @@ install:
 #*******************************************************************************
 script:
 - cd ./tst/
+- cat ~/.netrc
 - echo $TST_PUB_DWNL && $TST_PUB_DWNL
 - echo $TST_PUB_REPR && $TST_PUB_REPR
 
