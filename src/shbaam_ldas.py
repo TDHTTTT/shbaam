@@ -186,7 +186,10 @@ print('Downloading all files')
 print('- Creating a networking session and assigning associated credentials')
 
 s=requests.Session()
+
+#Avoid TooManyRedirects on Travis
 s.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36'
+s.max_redirects = 99
 s.auth=cred
 
      
@@ -255,6 +258,7 @@ for JS_count in range(IS_count):
                print('ERROR - status code '+str(r.status_code)+                \
                      'returned when downloading '+payload['FILENAME'])
                raise SystemExit(22)
+          print(r.headers)
           YS_name=r.headers['content-disposition']
           YS_name=YS_name.replace('attachment; filename=','')
           YS_name=YS_name.replace('"','')
