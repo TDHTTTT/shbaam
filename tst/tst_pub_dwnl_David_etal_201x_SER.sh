@@ -23,7 +23,6 @@
 #DOI: 10.5067/TEMSC-OCL05
 #The script returns the following exit codes
 # - 0  if all downloads are successful 
-=======
 # - 22 if there was a conversion problem
 # - 44 if one download is not successful
 #Author:
