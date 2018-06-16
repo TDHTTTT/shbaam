@@ -70,10 +70,10 @@ test_script:
   - ps: ls ~/
   - ps: cat ~/.netrc
   - ps: cd tst
-  - ps: Write-Host $env:TST_PUB_DWNL
-  - ps: bash $env:TST_PUB_DWNL
-  - ps: Write-Host $env:TST_PUB_REPR
-  - ps: bash $env:TST_PUB_REPR
+#  - ps: Write-Host $env:TST_PUB_DWNL
+#  - ps: bash $env:TST_PUB_DWNL
+#  - ps: Write-Host $env:TST_PUB_REPR
+#  - ps: bash $env:TST_PUB_REPR
 
 
 #*******************************************************************************
