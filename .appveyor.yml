@@ -42,8 +42,8 @@ environment:
         secure: goH0K33745ArR1LCelFXeQ==
 
 
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#init:
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 #*******************************************************************************
 #Before installing SHBAAM
@@ -77,6 +77,9 @@ test_script:
   - ps: Write-Host $env:TST_PUB_REPR
   - ps: bash $env:TST_PUB_REPR
 
+
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 #*******************************************************************************
 #End
