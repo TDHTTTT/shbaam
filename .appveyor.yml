@@ -34,24 +34,24 @@ environment:
   matrix:
     - TST_PUB_DWNL: 'tst_pub_dwnl_David_etal_201x_SER.sh'
       TST_PUB_REPR: 'tst_pub_repr_David_etal_201x_SER.sh'
-      MACHINE:
-        secure: ML8yTR+8RNKLgeTidynBpKD08Q/oHGxXjKGZUCIjQoM=
-
-      USERNAME:
+  
+      EARTH_USERNAME:
         secure: iJJA/KDq2f5V3/k8IRSHHA==
 
-      PASSWORD:
+      EARTH_PASSWORD:
         secure: goH0K33745ArR1LCelFXeQ==
 
 
-#init:
-#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 #*******************************************************************************
 #Before installing SHBAAM
 #*******************************************************************************
 install:
-#  - ps: echo "machine urs.earthdata.nasa.gov login $env:EARTH_USERNAME password $env:EARTH_PASSWORD" >> ~/.netrc
+  - ps: echo "machine urs.earthdata.nasa.gov" > ~/.netrc 
+  - ps: echo "login $env:EARTH_USERNAME" >> ~/.netrc
+  - ps: echo "password $env:EARTH_PASSWORD" >> ~/.netrc
   - ps: rm Alias:wget
   - ps: choco install --no-progress ((gc requirements.cho) -notmatch '^#' -match '\S')
   - ps: $ENV:PATH="C:\\ProgramData\\MiniConda2;C:\\ProgramData\\MiniConda2\\Scripts;$ENV:PATH"
@@ -70,7 +70,7 @@ build_script:
 #*******************************************************************************
 test_script:
   - ps: ls ~/
-#  - ps: cat ~/.netrc
+  - ps: cat ~/.netrc
   - ps: cd tst
   - ps: Write-Host $env:TST_PUB_DWNL
   - ps: bash $env:TST_PUB_DWNL
