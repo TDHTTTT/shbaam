@@ -41,6 +41,10 @@ environment:
       EARTH_PASSWORD:
         secure: goH0K33745ArR1LCelFXeQ==
 
+      APPVEYOR_RDP_PASSWORD: 123456
+
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 #*******************************************************************************
 #Before installing SHBAAM
 #*******************************************************************************
