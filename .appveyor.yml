@@ -8,7 +8,7 @@
 #The purpose of the .appveyor.yml file is to give instructions to AppVeyor on
 #how to do the work.
 #Author:
-#Cedric H. David, and Jiayou Shi, 2018-2018
+#Cedric H. David, 2018-2018
 
 
 #*******************************************************************************
@@ -41,10 +41,10 @@ environment:
       EARTH_PASSWORD:
         secure: goH0K33745ArR1LCelFXeQ==
 
-      APPVEYOR_RDP_PASSWORD: 123456
 
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 #*******************************************************************************
 #Before installing SHBAAM
 #*******************************************************************************
