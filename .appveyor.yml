@@ -49,7 +49,7 @@ environment:
 install:
     # _netrc on windows
   - ps: $ENV:HOME="C:\\Users\\appveyor"
-  - cmd: echo machine urs.earthdata.nasa.gov login $ENV:EARTH_USERNAME password $ENV:EARTH_PASSWORD >> %HOME%/.netrc
+  - cmd: echo machine urs.earthdata.nasa.gov login %EARTH_USERNAME% password %EARTH_PASSWORD% >> %HOME%/.netrc
   - ps: rm Alias:wget
   - ps: choco install --no-progress ((gc requirements.cho) -notmatch '^#' -match '\S')
   - ps: $ENV:PATH="C:\\ProgramData\\MiniConda2;C:\\ProgramData\\MiniConda2\\Scripts;$ENV:PATH"
