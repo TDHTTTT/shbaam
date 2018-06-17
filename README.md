@@ -1,9 +1,9 @@
 # SHBAAM
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-yellow.svg)](https://github.com/c-h-david/shbaam/blob/master/LICENSE)
 
-[![Build Status](https://travis-ci.org/c-h-david/shbaam.svg?branch=master)](https://travis-ci.org/c-h-david/shbaam)
+[![Build Status](https://travis-ci.org/TDHTTTT/shbaam.svg?branch=exp)](https://travis-ci.org/TDHTTTT/shbaam)
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/c-h-david/shbaam?branch=master&svg=true)](https://ci.appveyor.com/project/c-h-david/shbaam)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/TDHTTTT/shbaam?branch=master&svg=true)](https://ci.appveyor.com/project/TDHTTTT/shbaam)
 
 [![Docker Build](https://img.shields.io/docker/automated/chdavid/shbaam.svg)](https://hub.docker.com/r/chdavid/shbaam/)
 
