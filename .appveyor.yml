@@ -68,6 +68,7 @@ build_script:
 #Testing SHBAAM
 #*******************************************************************************
 test_script:
+  - ps: pwd
   - ps: ls ~/
   - ps: cat ~/_netrc
   - ps: cd tst
