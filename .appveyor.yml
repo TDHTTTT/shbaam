@@ -48,12 +48,12 @@ environment:
 #*******************************************************************************
 install:
     # _netrc on windows
-  - cmd: echo machine urs.earthdata.nasa.gov login $ENV:EARTH_USERNAME password $ENV:EARTH_PASSWORD >> ~/.netrc
+  - ps: $ENV:HOME="C:\\Users\\appveyor"
+  - cmd: echo machine urs.earthdata.nasa.gov login $ENV:EARTH_USERNAME password $ENV:EARTH_PASSWORD >> %HOME%/.netrc
   - ps: rm Alias:wget
   - ps: choco install --no-progress ((gc requirements.cho) -notmatch '^#' -match '\S')
   - ps: $ENV:PATH="C:\\ProgramData\\MiniConda2;C:\\ProgramData\\MiniConda2\\Scripts;$ENV:PATH"
   - ps: $ENV:PATH="C:\\Program Files (x86)\\GnuWin32\\bin;$ENV:PATH"
-  - ps: $ENV:HOME="C:\\Users\\appveyor"
 
 #*******************************************************************************
 #Installing SHBAAM
@@ -69,7 +69,6 @@ test_script:
   - ps: pwd
   - ps: ls ~/
   - ps: cat ~/.netrc
-  - ps: cat ~/_netrc
   - ps: echo $HOME
   - ps: python -m netrc
   - ps: cd tst
