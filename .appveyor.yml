@@ -48,8 +48,7 @@ environment:
 #*******************************************************************************
 install:
     # _netrc on windows
-  - ps: echo "machine urs.earthdata.nasa.gov login $ENV:EARTH_USERNAME password $ENV:EARTH_PASSWORD" >> ~/.netrc
-  - ps: echo "machine urs.earthdata.nasa.gov login $ENV:EARTH_USERNAME password $ENV:EARTH_PASSWORD" >> ~/_netrc
+  - cmd: echo machine urs.earthdata.nasa.gov login $ENV:EARTH_USERNAME password $ENV:EARTH_PASSWORD >> ~/.netrc
   - ps: rm Alias:wget
   - ps: choco install --no-progress ((gc requirements.cho) -notmatch '^#' -match '\S')
   - ps: $ENV:PATH="C:\\ProgramData\\MiniConda2;C:\\ProgramData\\MiniConda2\\Scripts;$ENV:PATH"
@@ -72,7 +71,7 @@ test_script:
   - ps: cat ~/.netrc
   - ps: cat ~/_netrc
   - ps: echo $HOME
-  - cmd: python -m netrc
+  - ps: python -m netrc
   - ps: cd tst
   - ps: Write-Host $env:TST_PUB_DWNL
   - ps: bash $env:TST_PUB_DWNL
