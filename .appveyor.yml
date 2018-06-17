@@ -72,7 +72,7 @@ test_script:
   - ps: cat ~/.netrc
   - ps: cat ~/_netrc
   - ps: echo $HOME
-#  - ps: python -m netrc
+  - cmd: python -m netrc
   - ps: cd tst
   - ps: Write-Host $env:TST_PUB_DWNL
   - ps: bash $env:TST_PUB_DWNL
