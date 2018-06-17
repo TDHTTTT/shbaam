@@ -54,7 +54,7 @@ install:
   - ps: choco install --no-progress ((gc requirements.cho) -notmatch '^#' -match '\S')
   - ps: $ENV:PATH="C:\\ProgramData\\MiniConda2;C:\\ProgramData\\MiniConda2\\Scripts;$ENV:PATH"
   - ps: $ENV:PATH="C:\\Program Files (x86)\\GnuWin32\\bin;$ENV:PATH"
-  - ps: $ENV:HOME="C:\Users\appveyor"
+  - ps: $ENV:HOME="C:\\Users\\appveyor"
 
 #*******************************************************************************
 #Installing SHBAAM
@@ -72,7 +72,7 @@ test_script:
   - ps: cat ~/.netrc
   - ps: cat ~/_netrc
   - ps: echo $HOME
-  - ps: python -m netrc
+#  - ps: python -m netrc
   - ps: cd tst
   - ps: Write-Host $env:TST_PUB_DWNL
   - ps: bash $env:TST_PUB_DWNL
