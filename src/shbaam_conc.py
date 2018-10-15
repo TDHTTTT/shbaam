@@ -1,4 +1,5 @@
 import netCDF4
+from datetime import datetime, timedelta
 import numpy as np
 import sys
 
@@ -12,6 +13,14 @@ def conc(ifs,o):
         ovar.setncatts({an: ivar.getncattr(an) for an in ivar.ncattrs()})
         if vn in ("lat","lon"):
             ovar[:] = ivar[:]
+        elif vn == "time":
+            ovar = np.array([0])
+            stime = datetime(*list(int(i[-1]) if len(i) == 2 and i[0] == 0 else int(i) for i in ivar.units.split()[2].split("-")))
+            for ifx in ifs[1:]:
+                timex = datetime(*list(int(i[-1]) if len(i) == 2 and i[0] == 0 else int(i) for i in ifx.variables[vn].units.split()[2].split("-")))
+                ovar = np.append(ovar,(timex-stime).total_seconds()/3600)
+                print(ovar)
+                print((timex-stime).total_seconds()/3600)
         else:
             ivars = ivar[:]
             for ifx in ifs[1:]:
