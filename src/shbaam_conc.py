@@ -3,31 +3,35 @@ from datetime import datetime, timedelta
 import numpy as np
 import sys
 
-def conc(ifs,o):
+def copy(ifs,o):
     for (dn, dim) in ifs[0].dimensions.items():
-        #print(dn,dim)
         o.createDimension(dn,len(dim) if not dim.isunlimited() else None)
+
     for (vn, ivar) in ifs[0].variables.items():
-        #print(vn,ivar)
         ovar = o.createVariable(vn, ivar.datatype, ivar.dimensions)
         ovar.setncatts({an: ivar.getncattr(an) for an in ivar.ncattrs()})
-        if vn in ("lat","lon"):
-            ovar[:] = ivar[:]
-        elif vn == "time":
-            ovar = np.array([0])
-            stime = datetime(*list(int(i[-1]) if len(i) == 2 and i[0] == 0 else int(i) for i in ivar.units.split()[2].split("-")))
+        ovar[:] = ivar[:]
+
+def conc_time(ifs,o):
+    for (vn, ovar) in o.variables.items():
+        if vn == "time":
+            stime = datetime(*list(int(i[-1]) if len(i) == 2 and i[0] == 0 else int(i) for i in ovar.units.split()[2].split("-")))
             for ifx in ifs[1:]:
                 timex = datetime(*list(int(i[-1]) if len(i) == 2 and i[0] == 0 else int(i) for i in ifx.variables[vn].units.split()[2].split("-")))
-                ovar = np.append(ovar,(timex-stime).total_seconds()/3600)
-                print(ovar)
-                print((timex-stime).total_seconds()/3600)
-        else:
-            ivars = ivar[:]
-            for ifx in ifs[1:]:
-                #print(22222,ivars,ivars.shape,type(ivars))
-                ivars = np.ma.concatenate((ivars,ifx.variables[vn][:]))
-            ovar[:] = ivars[:]
+                ovar[:] = np.append(ovar[:],(timex-stime).total_seconds()/3600)
+                 
+def conc_vars(ifs,o):
+    for (vn, ovar) in o.variables.items():
+        if vn in ("SWE", "Canint"):
+            for i in range(1,len(ifs)):
+                ifx = ifs[i]
+                ovar[i] = ifx.variables[vn][:] 
             
+
+def check(o):
+    #np.set_printoptions(threshold=np.nan)
+    for (vn, ovar) in o.variables.items():
+        print(ovar,ovar[:],ovar[:].shape)
 
 if __name__ == "__main__":
     ifns = sys.argv[1:-1]
@@ -36,7 +40,10 @@ if __name__ == "__main__":
     ifs = [netCDF4.Dataset(i,'r') for i in ifns]
     of = netCDF4.Dataset(ofn,"w",format="NETCDF4")
     
-    conc(ifs,of)
+    copy(ifs,of)
+    conc_time(ifs,of)
+    conc_vars(ifs,of)
+    check(of)
 
     for i in ifs:
         i.close()
