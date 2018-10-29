@@ -53,4 +53,4 @@ if __name__ == "__main__":
     tmpx = fiona.open('tmpxx.shp','r')
     index = newIndex(tmpx)
     tot, ilons, ilats = findInter(sf,index,tmpx)
-    print(tot,ilons,ilats)
+    print("Total # of cells:",tot,"Longitudes:",ilons,"Latitudes:",ilats)
