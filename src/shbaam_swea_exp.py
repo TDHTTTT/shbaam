@@ -10,6 +10,7 @@ import math
 import numpy as np
 import datetime
 import csv
+import shbaam_conc
 
 def newSHP(inx,isx,lons,lats,osn):
     lonum,lanum = len(lons),len(lats)
@@ -99,13 +100,39 @@ def outCSV(times,ptimes,ocx):
         for t in range(len(times)):
             cw.writerow([ptimes[t],sweas[t]])
 
+def outNC(tot,ilons,ilats,avgs,swes,onx):
+    swe, canint = shbaam_conc.copy([inx],onx)
+    print(swe,canint)
+    dt=datetime.datetime.utcnow()
+    dt=dt.replace(microsecond=0)
+    #Current UTC time without the microseconds
+    #vsn=subprocess.Popen('bash ../version.sh', stdout=subprocess.PIPE,shell=True).communicate()
+    #vsn=vsn[0]
+    #vsn=vsn.rstrip()
+    #Version of SHBAAM
+
+    onx.Conventions='CF-1.6'
+    onx.title=''
+    onx.institution=''
+    #h.source='SHBAAM: '+vsn+', GRACE: '+os.path.basename(shb_grc_ncf) +', Scale factors: '+os.path.basename(shb_fct_ncf)
+    onx.history='date created: '+dt.isoformat()+'+00:00'
+    onx.references='https://github.com/c-h-david/shbaam/'
+    onx.comment=''
+    onx.featureType='timeSeries' 
+
+    for i in range(tot):
+        lonx,latx = ilons[i][0],ilats[i][0]
+        avgx = avgs[i]
+        for t in range(len(times)):
+            swe[t,latx,lonx] = swes[t,latx,lonx] - avgx
+
 if __name__ == "__main__":
     ifns = sys.argv[1:]
     inx = Dataset(ifns[0],'r')
     isx = fiona.open(ifns[1],'r')
     osn = ifns[2]
     ocx = ifns[3]
-    onx = Dataset(ifns[4],'w')
+    onx = Dataset(ifns[4],'w',format='NETCDF4')
 
     lons,lats,times = inx.variables['lon'],inx.variables['lat'],inx.variables['time']
     swes = inx.variables['SWE']
@@ -129,6 +156,7 @@ if __name__ == "__main__":
     ptimes = getPtimes(times)
     print(ptimes)
     outCSV(times,ptimes,ocx)
+    outNC(tot,ilons,ilats,avgs,swes,onx)
 
     inx.close()
     isx.close()

@@ -1,17 +1,23 @@
+#!/usr/bin/env python3
 import netCDF4
 from datetime import datetime, timedelta
 import numpy as np
 import sys
 
 def copy(ifs,o):
+    res = []
     for (dn, dim) in ifs[0].dimensions.items():
         o.createDimension(dn,len(dim) if not dim.isunlimited() else None)
 
     for (vn, ivar) in ifs[0].variables.items():
         ovar = o.createVariable(vn, ivar.datatype, ivar.dimensions)
         ovar.setncatts({an: ivar.getncattr(an) for an in ivar.ncattrs()})
-        ovar[:] = ivar[:]
-
+        if vn not in ("SWE","Canint"):
+            ovar[:] = ivar[:]
+        else:
+            res.append(ovar)
+    return res
+            
 def conc_time(ifs,o):
     for (vn, ovar) in o.variables.items():
         if vn == "time":
@@ -23,7 +29,7 @@ def conc_time(ifs,o):
 def conc_vars(ifs,o):
     for (vn, ovar) in o.variables.items():
         if vn in ("SWE", "Canint"):
-            for i in range(1,len(ifs)):
+            for i in range(len(ifs)):
                 ifx = ifs[i]
                 ovar[i] = ifx.variables[vn][:] 
             
