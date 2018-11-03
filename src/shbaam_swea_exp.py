@@ -7,6 +7,8 @@ import rtree
 from netCDF4 import Dataset
 import math
 import numpy as np
+import datetime
+import csv
 
 def newSHP(nf,sf,lons,lats):
     lonum,lanum = len(lons),len(lats)
@@ -79,16 +81,22 @@ def getSWEA(tot,ilons,ilats,times,avgs,sqms,swes):
         sweas.append(100*swea/sum(sqms))
     return sweas
 
-def getPtimes():
+def getPtimes(times):
     start = datetime.datetime.strptime('2002-04-01T00:00:00', '%Y-%m-%dT%H:%M:%S')
+    print(start)
     ptimes = []
     for t in range(len(times)):
-        dt = datetime.timedelta(days=times[t])
-        ptimx = (start+dt).strftime('%m%d%y')
+        dt = datetime.timedelta(hours=times[t])
+        print(dt)
+        ptimex = (start+dt).strftime('%m%d%y')
         ptimes.append(ptimex)
     return ptimes
 
-
+def outCSV(times,ptimes):
+    with open('tmpx.csv' , 'w') as cf:
+        cw = csv.writer(cf,dialect='excel')
+        for t in range(len(times)):
+            cw.writerow([ptimes[t],sweas[t]])
 
 if __name__ == "__main__":
     ifns = sys.argv[1:]
@@ -113,7 +121,9 @@ if __name__ == "__main__":
     print('- Maximum of time series: '+str(np.max(sweas)))
     print('- Minimum of time series: '+str(np.min(sweas)))
 
-    ptimes = getPtimes()
+    ptimes = getPtimes(times)
+    print(ptimes)
+    outCSV(times,ptimes)
 
     nf.close()
     sf.close()
