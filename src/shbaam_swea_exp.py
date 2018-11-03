@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import fiona
 import shapely.geometry
 import shapely.prepared
@@ -10,10 +11,10 @@ import numpy as np
 import datetime
 import csv
 
-def newSHP(nf,sf,lons,lats):
+def newSHP(inx,isx,lons,lats,osn):
     lonum,lanum = len(lons),len(lats)
     schx={'geometry': 'Point', 'properties': {'lonx': 'int:4', 'latx': 'int:4','nlon':'float','nlat':'float'}}
-    with fiona.open('tmpxx.shp','w',driver=sf.driver,crs=sf.crs.copy(),schema=schx) as tmpx:
+    with fiona.open(osn,'w',driver=isx.driver,crs=isx.crs.copy(),schema=schx) as tmpx:
         for lonx in range(lonum):
             nlon = lons[lonx]
             if nlon > 180:
@@ -33,18 +34,18 @@ def newIndex(tmpx):
         index.insert(tmpfid,tmpshy.bounds)
     return index
 
-def findInter(sf,index,tmpx):
+def findInter(isx,index,tmpx):
     tot = 0
     ilons, ilats = [], []
-    for fea in sf:
-        sfshy = shapely.geometry.shape(fea['geometry'])
-        sfpre = shapely.prepared.prep(sfshy)
-        for sfid in [int(x) for x in list(index.intersection(sfshy.bounds))]:
-            sfpfea = tmpx[sfid]
-            sfpshy = shapely.geometry.shape(sfpfea['geometry'])
-            if sfpre.contains(sfpshy):
-                ilons.append((sfpfea['properties']['lonx'],sfpfea['properties']['nlon']))
-                ilats.append((sfpfea['properties']['latx'],sfpfea['properties']['nlat']))
+    for fea in isx:
+        isxshy = shapely.geometry.shape(fea['geometry'])
+        isxpre = shapely.prepared.prep(isxshy)
+        for isxid in [int(x) for x in list(index.intersection(isxshy.bounds))]:
+            isxpfea = tmpx[isxid]
+            isxpshy = shapely.geometry.shape(isxpfea['geometry'])
+            if isxpre.contains(isxpshy):
+                ilons.append((isxpfea['properties']['lonx'],isxpfea['properties']['nlon']))
+                ilats.append((isxpfea['properties']['latx'],isxpfea['properties']['nlat']))
                 tot += 1
     return tot, ilons, ilats
 
@@ -92,23 +93,27 @@ def getPtimes(times):
         ptimes.append(ptimex)
     return ptimes
 
-def outCSV(times,ptimes):
-    with open('tmpx.csv' , 'w') as cf:
+def outCSV(times,ptimes,ocx):
+    with open(ocx , 'w') as cf:
         cw = csv.writer(cf,dialect='excel')
         for t in range(len(times)):
             cw.writerow([ptimes[t],sweas[t]])
 
 if __name__ == "__main__":
     ifns = sys.argv[1:]
-    nf = Dataset(ifns[0],'r')
-    lons,lats,times = nf.variables['lon'],nf.variables['lat'],nf.variables['time']
-    swes = nf.variables['SWE']
+    inx = Dataset(ifns[0],'r')
+    isx = fiona.open(ifns[1],'r')
+    osn = ifns[2]
+    ocx = ifns[3]
+    onx = Dataset(ifns[4],'w')
+
+    lons,lats,times = inx.variables['lon'],inx.variables['lat'],inx.variables['time']
+    swes = inx.variables['SWE']
     print('s',swes.shape)
-    sf = fiona.open(ifns[1],'r')
-    newSHP(nf,sf,lons,lats)
-    tmpx = fiona.open('tmpxx.shp','r')
-    index = newIndex(tmpx)
-    tot, ilons, ilats = findInter(sf,index,tmpx)
+    newSHP(inx,isx,lons,lats,osn)
+    osx = fiona.open(osn,'r')
+    index = newIndex(osx)
+    tot, ilons, ilats = findInter(isx,index,osx)
     print("Total # of cells:",tot,"Longitudes:",ilons,"Latitudes:",ilats)
     avgs = getMean(tot,ilons,ilats,times,swes)
     print(avgs)
@@ -123,7 +128,9 @@ if __name__ == "__main__":
 
     ptimes = getPtimes(times)
     print(ptimes)
-    outCSV(times,ptimes)
+    outCSV(times,ptimes,ocx)
 
-    nf.close()
-    sf.close()
+    inx.close()
+    isx.close()
+    osx.close()
+    onx.close()
