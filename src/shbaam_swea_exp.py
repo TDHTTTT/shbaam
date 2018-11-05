@@ -78,7 +78,7 @@ def getSWEA(tot,ilons,ilats,times,avgs,sqms,swes):
             lonx,latx = ilons[i][0],ilats[i][0]
             avgx = avgs[i]
             sqmx = sqms[i]
-            sweax = (swes[t,latx,lonx])/100 - avgx * sqmx
+            sweax = (swes[t,latx,lonx]-avgx)/100 * sqmx
             swea += sweax
         sweas.append(100*swea/sum(sqms))
     return sweas
@@ -90,7 +90,7 @@ def getPtimes(times):
     for t in range(len(times)):
         dt = datetime.timedelta(hours=times[t])
         print(dt)
-        ptimex = (start+dt).strftime('%m%d%y')
+        ptimex = (start+dt).strftime('%m/%d/%Y')
         ptimes.append(ptimex)
     return ptimes
 
